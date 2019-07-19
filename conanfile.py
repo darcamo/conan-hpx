@@ -12,7 +12,7 @@ import os
 
 class HpxConan(ConanFile):
     name = "hpx"
-    version = "1.2.1"
+    version = "1.3.0"
     license = "Boost Software License, Version 1.0"
     url = "https://github.com/darcamo/conan-hpx"
     description = "HPX (High Performance ParalleX) is a general purpose C++ runtime system for parallel and distributed applications of any scale."
@@ -20,7 +20,7 @@ class HpxConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=False"
     generators = "cmake"
-    requires = "boost/1.70.0@conan/stable", "hwloc/1.11.12@darcamo/stable"
+    requires = "boost/[>=1.70.0]@conan/stable", "hwloc/1.11.13@darcamo/stable"
 
     def system_requirements(self):
         if tools.os_info.linux_distro == "arch":
@@ -50,6 +50,9 @@ conan_basic_setup()''')
         cmake.configure(source_folder="sources", build_folder="build")
         cmake.build()
         cmake.install()
+
+        # Other variables you could set in CMake: See https://stellar-group.github.io/hpx/docs/sphinx/latest/html/manual/building_hpx.html#cmake-variables
+        # - HPX_WITH_CUDA:BOOL
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
